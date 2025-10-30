@@ -2,6 +2,7 @@
 
 import http.server
 import socketserver
+import os
 
 """
 Main entry point for the mechanik8s application
@@ -15,7 +16,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(b'Hello from mechanik8s')
 
 def main():
-    PORT = 3968
+    PORT = int(os.environ.get('MK8S_PORT', 3968))
     with socketserver.TCPServer(('', PORT), Handler) as httpd:
         print(f"Server running on port {PORT}")
         httpd.serve_forever()

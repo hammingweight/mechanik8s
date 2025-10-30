@@ -30,6 +30,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
+        - name: MK8S_PORT
+          value: "{{ .Values.container.port }}"
         resources:
           {{- toYaml .Values.container.resources | nindent 10 }}
       {{- if .Values.tolerations }}
