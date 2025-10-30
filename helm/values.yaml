@@ -1,0 +1,42 @@
+# Default values for mechanik8s Helm chart
+
+# Global settings
+global:
+  image:
+    repository: docker.io/hammingweight/mechanik8s
+    tag: "latest"
+    pullPolicy: Always
+
+# DaemonSet settings
+daemonset:
+  name: mechanik8s
+  replicas: 0 # Set to 0 to let Kubernetes decide based on nodes
+
+# Container settings
+container:
+  port: 3968
+  resources: {}
+  # Example of resource limits:
+  # resources:
+  #   limits:
+  #     cpu: 500m
+  #     memory: 512Mi
+  #   requests:
+  #     cpu: 250m
+  #     memory: 256Mi
+
+# Node selector (optional)
+nodeSelector: {}
+  # For example, to run only on specific nodes:
+  # kubernetes.io/os: linux
+
+# Tolerations (optional)
+tolerations: []
+  # For example, to allow running on master nodes:
+  # - key: node-role.kubernetes.io/master
+  #   effect: NoSchedule
+  # - key: node-role.kubernetes.io/control-plane
+  #   effect: NoSchedule
+
+# Host path for cgroup values
+cgroupHostPath: ""

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Values.daemonset.name }}
+  labels:
+    app: {{ .Values.daemonset.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.daemonset.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.daemonset.name }}
+    spec:
+      containers:
+      - name: {{ .Values.daemonset.name }}
+        image: {{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.container.port }}
+          hostPort: {{ .Values.container.port }}
+          protocol: TCP
+        env:
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        resources:
+          {{- toYaml .Values.container.resources | nindent 10 }}
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
