@@ -3,6 +3,9 @@ FROM python:3.12-slim
 # Set working directory
 WORKDIR /app
 
+# Create /hostcgroups directory in root
+RUN mkdir -p /hostcgroups
+
 # Copy requirements first (for better caching)
 COPY requirements.txt .
 

@@ -32,8 +32,17 @@ spec:
               fieldPath: status.podIP
         - name: MK8S_PORT
           value: "{{ .Values.container.port }}"
+        volumeMounts:
+        - name: hostcgroups
+          mountPath: /hostcgroups/
+          readOnly: true
         resources:
           {{- toYaml .Values.container.resources | nindent 10 }}
+      volumes:
+      - name: hostcgroups
+        hostPath:
+          path: {{ .Values.cgroupHostPath }}
+          type: Directory
       {{- if .Values.tolerations }}
       tolerations:
         {{- toYaml .Values.tolerations | nindent 8 }}

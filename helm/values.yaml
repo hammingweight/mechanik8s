@@ -39,4 +39,4 @@ tolerations: []
   #   effect: NoSchedule
 
 # Host path for cgroup values
-cgroupHostPath: ""
+cgroupHostPath: "/sys/fs/cgroup/kubepods/"
